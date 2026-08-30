@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router'
-import { Heart, Home, Calculator, Tag, User } from 'lucide-react'
+import { Heart, Home, Tag, User } from 'lucide-react'
 import Logo from '@/components/Logo'
 import { useMarketplace } from '@/context/MarketplaceContext'
 import { cn } from '@/lib/utils'
@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 const links = [
   { to: '/', label: 'Buy', icon: Home },
   { to: '/sell', label: 'Sell', icon: Tag },
-  { to: '/mortgage', label: 'Mortgage', icon: Calculator },
+  // { to: '/mortgage', label: 'Mortgage', icon: Calculator },
   { to: '/saved', label: 'Saved', icon: Heart },
   { to: '/dashboard', label: 'Dashboard', icon: User },
 ]
