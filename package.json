@@ -1,0 +1,31 @@
+{
+  "name": "xproperty",
+  "private": true,
+  "version": "0.0.0",
+  "description": "XProperty — trust-first real estate platform (React SPA + Express/Drizzle API)",
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace client",
+    "dev:api": "npm run dev --workspace server",
+    "build": "npm run build --workspace client && npm run build --workspace server",
+    "preview": "npm run preview --workspace client",
+    "start:api": "npm run start --workspace server",
+    "lint": "npm run lint --workspace client",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down",
+    "migrate": "npm run migrate --workspace server",
+    "db:generate": "npm run db:generate --workspace server",
+    "db:seed": "npx tsx server/src/db/seed.ts"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0",
+    "@playwright/test": "^1.48.0"
+  }
+}
