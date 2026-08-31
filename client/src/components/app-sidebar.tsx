@@ -3,36 +3,38 @@
 import * as React from "react";
 import {
   BarChartIcon,
-  CameraIcon,
+  Building2Icon,
   ClipboardListIcon,
-  DatabaseIcon,
-  FileCodeIcon,
-  FileIcon,
   FileTextIcon,
-  FolderIcon,
   HelpCircleIcon,
+  InboxIcon,
+  KeyRoundIcon,
+  LandPlotIcon,
   LayoutDashboardIcon,
-  ListIcon,
   SearchIcon,
   SettingsIcon,
+  UserRoundIcon,
   UsersIcon,
+  WalletIcon,
 } from "lucide-react";
 
 import { NavDocuments } from "@/components/nav-documents";
-import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Logo from "@/components/Logo";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 const data = {
   user: {
@@ -40,118 +42,47 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
+  navGroups: [
     {
-      title: "Dashboard",
-      url: "#",
-      icon: LayoutDashboardIcon,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: ListIcon,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: BarChartIcon,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: FolderIcon,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: UsersIcon,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: CameraIcon,
-      isActive: true,
-      url: "#",
+      label: "Overview",
       items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
+        { title: "Dashboard", url: "/admin", icon: LayoutDashboardIcon },
+        { title: "Analytics", url: "/admin/analytics", icon: BarChartIcon },
       ],
     },
     {
-      title: "Proposal",
-      icon: FileTextIcon,
-      url: "#",
+      label: "Services",
       items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
+        { title: "Property Sales", url: "/admin/listings", icon: Building2Icon },
+        { title: "Land and housing", url: "/admin/sales", icon: LandPlotIcon },
+        { title: "Property management", url: "/admin/rentals", icon: KeyRoundIcon },
       ],
     },
     {
-      title: "Prompts",
-      icon: FileCodeIcon,
-      url: "#",
+      label: "People",
       items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
+        { title: "Agents", url: "/admin/agents", icon: UsersIcon },
+        { title: "Clients", url: "/admin/clients", icon: UserRoundIcon },
+        { title: "Leads", url: "/admin/leads", icon: InboxIcon },
       ],
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: SettingsIcon,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: HelpCircleIcon,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: SearchIcon,
-    },
+    { title: "Settings", url: "/admin/settings", icon: SettingsIcon },
+    { title: "Get Help", url: "/admin/support", icon: HelpCircleIcon },
+    { title: "Search", url: "/admin/search", icon: SearchIcon },
   ],
   documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: DatabaseIcon,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: ClipboardListIcon,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: FileIcon,
-    },
+    { name: "Transactions", url: "/admin/transactions", icon: WalletIcon },
+    { name: "Reports", url: "/admin/reports", icon: ClipboardListIcon },
+    { name: "Contracts", url: "/admin/contracts", icon: FileTextIcon },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: React. ComponentProps<typeof Sidebar>) {
+  const location = useLocation();
+  const current = location.pathname + location.search;
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -176,11 +107,36 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        {data.navGroups.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={item.title}
+                      isActive={current === item.url}
+                    >
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
