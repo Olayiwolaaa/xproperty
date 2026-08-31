@@ -1,36 +1,8 @@
 import { useMemo, useState } from 'react'
-import { Camera, Handshake, LineChart, SearchCheck } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { fmtUSD } from '@/lib/mortgage'
-
-const MARKETS: { name: string; ppsqft: number }[] = [
-  { name: 'Bellevue, WA', ppsqft: 520 },
-  { name: 'Portland, OR', ppsqft: 340 },
-  { name: 'Scottsdale, AZ', ppsqft: 390 },
-  { name: 'Greenwich, CT', ppsqft: 480 },
-  { name: 'Santa Barbara, CA', ppsqft: 720 },
-  { name: 'Chicago, IL', ppsqft: 330 },
-  { name: 'Tucson, AZ', ppsqft: 235 },
-  { name: 'Miami, FL', ppsqft: 610 },
-  { name: 'Franklin, TN', ppsqft: 285 },
-  { name: 'Bend, OR', ppsqft: 410 },
-  { name: 'Palm Springs, CA', ppsqft: 565 },
-]
-
-const CONDITIONS = [
-  { name: 'Needs work', mult: 0.88 },
-  { name: 'Good', mult: 1.0 },
-  { name: 'Updated', mult: 1.08 },
-  { name: 'Recently renovated', mult: 1.16 },
-]
-
-const steps = [
-  { icon: LineChart, title: 'Get your estimate', text: 'Start with an instant valuation based on your market, size, and condition.' },
-  { icon: SearchCheck, title: 'Prep with a pro', text: 'A xProperty advisor walks your home and recommends high-ROI touch-ups.' },
-  { icon: Camera, title: 'List beautifully', text: 'Pro photography, staging, and placement in front of qualified buyers.' },
-  { icon: Handshake, title: 'Close with confidence', text: 'We negotiate offers and manage paperwork through closing day.' },
-]
+import { fmtNGN } from '@/lib/mortgage'
+import { CONDITIONS, MARKETS, steps } from '@/data/sell'
 
 export default function SellPage() {
   const [market, setMarket] = useState(MARKETS[0].name)
@@ -122,9 +94,9 @@ export default function SellPage() {
 
           <div className="flex flex-col justify-center bg-forest-950 p-7 text-center sm:p-9">
             <p className="text-sm font-medium uppercase tracking-wider text-brass-300">Estimated value</p>
-            <p className="mt-3 font-display text-4xl font-bold text-cream">{fmtUSD(Math.round(estimate.mid))}</p>
+            <p className="mt-3 font-display text-4xl font-bold text-cream">{fmtNGN(Math.round(estimate.mid))}</p>
             <p className="mt-2 text-sm text-stone-400">
-              Likely range {fmtUSD(Math.round(estimate.low))} – {fmtUSD(Math.round(estimate.high))}
+              Likely range {fmtNGN(Math.round(estimate.low))} – {fmtNGN(Math.round(estimate.high))}
             </p>
             <button className="mt-6 rounded-xl bg-brass-500 px-4 py-3 text-sm font-bold text-forest-950 transition-colors hover:bg-brass-400">
               Get a full market report

@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils'
 const PRICE_STEPS = [250_000, 500_000, 750_000, 1_000_000, 1_500_000, 2_000_000, 3_000_000, 5_000_000]
 
 function priceLabel(v: number) {
-  return v >= 1_000_000 ? `$${v / 1_000_000}M` : `$${v / 1_000}K`
+  return v >= 1_000_000 ? `₦${v / 1_000_000}M` : `₦${v / 1_000}K`
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {

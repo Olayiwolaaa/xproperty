@@ -4,9 +4,9 @@ export interface MortgageInput {
   rate: number // annual %
   termYears: number
   taxRatePct: number // annual % of home price
-  insuranceAnnual: number // $ / year
-  hoaMonthly: number // $ / month
-  extraMonthly: number // extra principal $ / month
+  insuranceAnnual: number // ₦ /year
+  hoaMonthly: number // ₦ /month
+  extraMonthly: number // extra principal ₦ /month
 }
 
 export interface YearPoint {
@@ -89,8 +89,8 @@ export function calcMortgage(input: MortgageInput): MortgageResult {
   }
 }
 
-export const fmtUSD = (v: number, decimals = 0) =>
-  v.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+export const fmtNGN = (v: number, decimals = 0) =>
+  v.toLocaleString('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: decimals, maximumFractionDigits: decimals })
 
 export const fmtCompact = (v: number) =>
-  v >= 1_000_000 ? `$${(v / 1_000_000).toFixed(2)}M` : v >= 1_000 ? `$${Math.round(v / 1_000)}K` : fmtUSD(v)
+  v >= 1_000_000 ? `₦${(v / 1_000_000).toFixed(2)}M` : v >= 1_000 ? `₦${Math.round(v / 1_000)}K` : fmtNGN(v)

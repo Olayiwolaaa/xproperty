@@ -18,7 +18,8 @@ import {
   Hammer,
 } from 'lucide-react'
 import { PROPERTIES } from '@/data/properties'
-import { calcMortgage, fmtUSD } from '@/lib/mortgage'
+import { AGENT } from '@/data/propertyDetail'
+import { calcMortgage, fmtNGN } from '@/lib/mortgage'
 import { useMarketplace } from '@/context/MarketplaceContext'
 import { Slider } from '@/components/ui/slider'
 import { Input } from '@/components/ui/input'
@@ -77,7 +78,7 @@ export default function PropertyDetailPage() {
     { icon: Trees, label: 'Lot size', value: property.lotSqft ? `${property.lotSqft.toLocaleString()} sqft` : '—' },
     { icon: Hammer, label: 'Year built', value: String(property.yearBuilt) },
     { icon: Home, label: 'Type', value: property.type },
-    { icon: Landmark, label: 'Price / sqft', value: fmtUSD(property.pricePerSqft) },
+    { icon: Landmark, label: 'Price / sqft', value: fmtNGN(property.pricePerSqft) },
     { icon: CalendarDays, label: 'Open house', value: property.openHouse ?? 'By appointment' },
   ]
 
@@ -144,8 +145,8 @@ export default function PropertyDetailPage() {
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <p className="font-display text-3xl font-bold text-forest-900">{fmtUSD(property.price)}</p>
-            <p className="text-sm text-stone-500">Est. {fmtUSD(Math.round(est.monthlyTotal))}/mo</p>
+            <p className="font-display text-3xl font-bold text-forest-900">{fmtNGN(property.price)}</p>
+            <p className="text-sm text-stone-500">Est. {fmtNGN(Math.round(est.monthlyTotal))}/mo</p>
           </div>
           <button
             onClick={() => toggleFavorite(property.id)}
@@ -194,14 +195,14 @@ export default function PropertyDetailPage() {
           <section className="rounded-2xl border border-stone-200/80 bg-forest-950 p-7 text-stone-200 shadow-sm">
             <h2 className="font-display text-2xl font-bold text-cream">Monthly payment</h2>
             <p className="mt-1 text-sm text-stone-400">30-year fixed · taxes & insurance included</p>
-            <p className="mt-5 font-display text-4xl font-bold text-brass-300">{fmtUSD(Math.round(est.monthlyTotal))}
+            <p className="mt-5 font-display text-4xl font-bold text-brass-300">{fmtNGN(Math.round(est.monthlyTotal))}
               <span className="text-base font-normal text-stone-400">/mo</span>
             </p>
             <div className="mt-6 space-y-5">
               <div>
                 <div className="mb-1.5 flex justify-between text-sm">
                   <span className="text-stone-300">Down payment</span>
-                  <span className="font-semibold text-cream">{downPct}% · {fmtUSD(est.downPayment)}</span>
+                  <span className="font-semibold text-cream">{downPct}% · {fmtNGN(est.downPayment)}</span>
                 </div>
                 <Slider value={[downPct]} min={0} max={60} step={1} onValueChange={([v]) => setDownPct(v)} />
               </div>
@@ -235,16 +236,16 @@ export default function PropertyDetailPage() {
           <div className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm lg:sticky lg:top-24">
             <div className="flex items-center gap-4">
               <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest-100 font-display text-xl font-bold text-forest-800">
-                AC
+                {AGENT.initials}
               </span>
               <div>
-                <p className="font-semibold text-stone-900">Ava Castellano</p>
-                <p className="text-sm text-stone-500">Listing agent · xProperty Realty</p>
+                <p className="font-semibold text-stone-900">{AGENT.name}</p>
+                <p className="text-sm text-stone-500">{AGENT.title}</p>
               </div>
             </div>
             <div className="mt-4 space-y-1.5 text-sm text-stone-600">
-              <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-forest-600" /> (415) 555-0182</p>
-              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-forest-600" /> ava@xproperty.example</p>
+              <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-forest-600" /> {AGENT.phone}</p>
+              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-forest-600" /> {AGENT.email}</p>
             </div>
             {sent ? (
               <p className="mt-5 rounded-xl bg-forest-50 px-4 py-3 text-sm font-medium text-forest-800">

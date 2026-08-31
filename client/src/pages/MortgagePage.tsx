@@ -9,10 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { calcMortgage, fmtCompact, fmtUSD } from '@/lib/mortgage'
+import { calcMortgage, fmtCompact, fmtNGN } from '@/lib/mortgage'
 import { cn } from '@/lib/utils'
-
-const SLICE_COLORS = ['#1a523e', '#f59e0b', '#0ea5e9', '#a78bfa']
+import { LOAN_TERMS, SLICE_COLORS } from '@/data/mortgage'
 
 function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
   return (
@@ -117,11 +116,11 @@ export default function MortgagePage() {
       <div className="grid gap-6 lg:grid-cols-[400px_1fr]">
         {/* Inputs */}
         <div className="space-y-5 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
-          <SliderField label="Home price" hint={fmtUSD(homePrice)}>
+          <SliderField label="Home price" hint={fmtNGN(homePrice)}>
             <Slider value={[homePrice]} min={50_000} max={5_000_000} step={5_000} onValueChange={([v]) => setHomePrice(v)} />
           </SliderField>
 
-          <SliderField label="Down payment" hint={`${downPct}% · ${fmtUSD(result.downPayment)}`}>
+          <SliderField label="Down payment" hint={`${downPct}% · ${fmtNGN(result.downPayment)}`}>
             <Slider value={[downPct]} min={0} max={60} step={1} onValueChange={([v]) => setDownPct(v)} />
           </SliderField>
 
@@ -142,7 +141,7 @@ export default function MortgagePage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {[10, 15, 20, 25, 30].map((t) => (
+                  {LOAN_TERMS.map((t) => (
                     <SelectItem key={t} value={String(t)}>
                       {t} years
                     </SelectItem>
@@ -153,7 +152,7 @@ export default function MortgagePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Property tax (%/yr)" hint={fmtUSD(result.monthlyTax) + '/mo'}>
+            <Field label="Property tax (%/yr)" hint={fmtNGN(result.monthlyTax) + '/mo'}>
               <Input
                 type="number"
                 min={0}
@@ -163,7 +162,7 @@ export default function MortgagePage() {
                 onChange={(e) => setTaxRate(Math.min(Math.max(Number(e.target.value) || 0, 0), 4))}
               />
             </Field>
-            <Field label="Insurance ($/yr)" hint={fmtUSD(result.monthlyInsurance) + '/mo'}>
+            <Field label="Insurance ($/yr)" hint={fmtNGN(result.monthlyInsurance) + '/mo'}>
               <Input
                 type="number"
                 min={0}
@@ -208,7 +207,7 @@ export default function MortgagePage() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-xs font-medium uppercase tracking-wide text-stone-400">Monthly</span>
-                <span className="text-2xl font-bold text-stone-900">{fmtUSD(Math.round(result.monthlyTotal))}</span>
+                <span className="text-2xl font-bold text-stone-900">{fmtNGN(Math.round(result.monthlyTotal))}</span>
               </div>
             </div>
 
@@ -219,7 +218,7 @@ export default function MortgagePage() {
                   <li key={a.label} className="flex items-center gap-3 text-sm">
                     <span className="h-3 w-3 rounded-sm" style={{ background: a.color }} />
                     <span className="flex-1 text-stone-600">{a.label}</span>
-                    <span className="font-bold text-stone-900">{fmtUSD(Math.round(a.value))}</span>
+                    <span className="font-bold text-stone-900">{fmtNGN(Math.round(a.value))}</span>
                     <span className="w-12 text-right text-xs text-stone-400">{Math.round(a.frac * 100)}%</span>
                   </li>
                 ))}
@@ -296,7 +295,7 @@ export default function MortgagePage() {
             </svg>
             <p className={cn('mt-3 text-xs text-stone-400')}>
               Yearly principal vs. interest with remaining loan balance. Total cost of the loan:{' '}
-              <span className="font-bold text-stone-600">{fmtUSD(Math.round(result.totalCost))}</span>.
+              <span className="font-bold text-stone-600">{fmtNGN(Math.round(result.totalCost))}</span>.
             </p>
           </div>
         </div>

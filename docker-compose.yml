@@ -1,0 +1,29 @@
+# Local dev services for XProperty.
+#   docker compose up -d db     # start Postgres 18
+#   docker compose down         # stop (data persists in the named volume)
+#   docker compose down -v      # stop AND wipe the database volume
+#
+# Credentials here match server/.env.example's DATABASE_URL.
+services:
+  db:
+    image: postgres:18
+    container_name: xproperty-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: xproperty
+      POSTGRES_PASSWORD: xproperty
+      POSTGRES_DB: xproperty
+    ports:
+      - "5432:5432"
+    volumes:
+      # PG18+ images store data in a version subdir under /var/lib/postgresql — mount there,
+      # NOT at /var/lib/postgresql/data (the old convention). See docker-library/postgres#1259.
+      - xproperty_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xproperty -d xproperty"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  xproperty_pgdata:

@@ -8,12 +8,12 @@ import { cn } from '@/lib/utils'
 const links = [
   { to: '/', label: 'Buy', icon: Home },
   { to: '/sell', label: 'Sell', icon: Tag },
-  { to: '/rent', label: 'Rent', icon: Building2 },
+  { to: '/rent', label: 'Rent & Airbnb', icon: Building2 },
   { to: '/land', label: 'Land', icon: LandPlot },
   { to: '/manage', label: 'Manage', icon: KeyRound },
   { to: '/mortgage', label: 'Mortgage', icon: Calculator },
   { to: '/saved', label: 'Saved', icon: Heart },
-  { to: '/dashboard', label: 'Dashboard', icon: User },
+  { to: '/admin', label: 'Dashboard', icon: User },
 ]
 
 export default function Navbar() {

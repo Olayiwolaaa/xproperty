@@ -1,7 +1,7 @@
 import { BedDouble, Bath, Ruler, Heart, MapPin, CalendarDays } from 'lucide-react'
 import { Link } from 'react-router'
 import type { Property } from '@/types'
-import { calcMortgage, fmtUSD } from '@/lib/mortgage'
+import { calcMortgage, fmtNGN } from '@/lib/mortgage'
 import { useMarketplace } from '@/context/MarketplaceContext'
 import { cn } from '@/lib/utils'
 
@@ -61,9 +61,9 @@ export default function PropertyCard({ property }: { property: Property }) {
         <div className="pointer-events-none absolute inset-x-4 bottom-3.5 flex items-end justify-between gap-3">
           <div>
             <p className="font-display text-[1.4rem] font-bold leading-none text-white drop-shadow-md">
-              {fmtUSD(property.price)}
+              {fmtNGN(property.price)}
             </p>
-            <p className="mt-1 text-xs font-medium text-white/85">{fmtUSD(property.pricePerSqft)}/sqft</p>
+            <p className="mt-1 text-xs font-medium text-white/85">{fmtNGN(property.pricePerSqft)}/sqft</p>
           </div>
           {property.openHouse && (
             <span className="mb-0.5 flex shrink-0 items-center gap-1.5 rounded-md bg-stone-950/60 px-2 py-1 text-[11px] font-medium text-white backdrop-blur-sm">
@@ -109,7 +109,7 @@ export default function PropertyCard({ property }: { property: Property }) {
           to={`/mortgage?price=${property.price}`}
           className="block rounded-xl border border-forest-100 bg-forest-50 px-3 py-2.5 text-center text-sm font-semibold text-forest-800 transition-colors hover:border-forest-200 hover:bg-forest-100"
         >
-          Est. {fmtUSD(Math.round(est.monthlyTotal))}/mo · calculate
+          Est. {fmtNGN(Math.round(est.monthlyTotal))}/mo · calculate
         </Link>
       </div>
     </article>

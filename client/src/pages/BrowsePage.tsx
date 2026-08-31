@@ -7,14 +7,7 @@ import { filterProperties } from '@/context/MarketplaceContext'
 import { fmtCompact } from '@/lib/mortgage'
 import FilterBar from '@/components/FilterBar'
 import PropertyCard from '@/components/PropertyCard'
-
-const TYPE_ART: Record<PropertyType, string> = {
-  House: '/images/h1.jpg',
-  Condo: '/images/h9.jpg',
-  Townhouse: '/images/h6.jpg',
-  Cabin: '/images/h11.jpg',
-  Villa: '/images/h5.jpg',
-}
+import { TYPE_ART } from '@/data/typeArt'
 
 export default function BrowsePage() {
   const location = useLocation()
@@ -90,7 +83,7 @@ export default function BrowsePage() {
             {[
               { v: String(PROPERTIES.length), l: 'Curated listings' },
               { v: String(cities), l: 'Cities covered' },
-              { v: `$${avgPpsf}`, l: 'Avg $/sqft' },
+              { v: `₦${avgPpsf}`, l: 'Avg $/sqft' },
             ].map((s) => (
               <div key={s.l} className="text-center">
                 <p className="font-display text-3xl font-bold text-cream sm:text-4xl">{s.v}</p>

@@ -7,7 +7,11 @@ import PropertyDetailPage from '@/pages/PropertyDetailPage'
 import MortgagePage from '@/pages/MortgagePage'
 import SavedPage from '@/pages/SavedPage'
 import SellPage from '@/pages/SellPage'
-import DashboardPage from '@/pages/dashboard/DashboardPage'
+import AdminLayout from '@/pages/admin/AdminLayout'
+import DashboardPage from '@/pages/admin/DashboardPage'
+import PropertySalesPage from '@/pages/admin/PropertySalesPage'
+import LandAndHousingPage from '@/pages/admin/LandAndHousingPage'
+import PropertyManagementPage from '@/pages/admin/PropertyManagementPage'
 
 // Consumer marketplace shell: sticky navbar + footer around the page content.
 function MarketplaceLayout() {
@@ -35,8 +39,13 @@ export default function App() {
           <Route path="/saved" element={<SavedPage />} />
         </Route>
 
-        {/* Admin panel owns the full viewport: its own sidebar + header, no marketplace chrome */}
-        <Route path="/dashboard" element={<DashboardPage />} />
+        {/* Admin panel: its own sidebar + header shell, no marketplace chrome */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="listings" element={<PropertySalesPage />} />
+          <Route path="sales" element={<LandAndHousingPage />} />
+          <Route path="rentals" element={<PropertyManagementPage />} />
+        </Route>
       </Routes>
     </MarketplaceProvider>
   )
